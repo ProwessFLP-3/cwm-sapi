@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:pubsub="http://www.mulesoft.org/schema/mule/pubsub"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/pubsub http://www.mulesoft.org/schema/mule/pubsub/current/mule-pubsub.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="delivery-order-cwm-flow" doc:id="95cb3e3d-a552-4b44-81e3-3528e3d84577" >
+		<ee:transform doc:name="logger Input Payload and Auth Input Payload" doc:id="5ada6eb3-2bcb-463c-a142-3ab8d4cdd10c" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable resource="dwl/set-auth-request-payload.dwl" variableName="authRequestPayload" />
+				<ee:set-variable resource="dwl/set-input-payload.dwl" variableName="inputPayload" />
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="mile-log:request-received" doc:id="742e6360-173e-44ab-9d2c-6f8d449aebb0" name="mile-log:request-received" />
+		<flow-ref doc:name="mile-log:payload-logger" doc:id="dff4142f-ee27-4fb3-bf8b-cb2d1c145285" name="mile-log:payload-logger" />
+		<ee:transform doc:name="Prepare CWM Mapping" doc:id="ef6b7068-44a2-4661-9109-9046b033045a" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dwl/set-input-cwm-request-payload.dwl" variableName="inputRequest" />
+			
+</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="auth-cache-flow" doc:id="26dfa1ae-d05e-4a80-8cf1-d0a053fa5be7" name="auth-cache-flow" />
+		<flow-ref doc:name="cwm-flow" doc:id="2db28046-0e1b-4339-af3f-e81f8c93fa32" name="cwm-flow" />
+		<ee:transform doc:name="Set Success Response" doc:id="eab14308-bc3b-4fee-b502-3a3eaf13e9e3" >
+			<ee:message >
+				<ee:set-payload resource="dwl/set-output-success-response.dwl" />
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="logger inputPayload" doc:id="258891d1-bbaa-46ab-9921-34eb8b5e5d01" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dwl/input-payload-success-response-sent.dwl" variableName="inputPayload" />
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="mile-log:payload-logger" doc:id="f7c67194-2bfa-4d2a-9ad7-08d0275c94b4" name="mile-log:payload-logger"/>
+		<flow-ref doc:name="mile-log:success-response-sent" doc:id="aae8be48-a720-40ef-83bc-14dcfd9f6045" name="mile-log:success-response-sent" />
+	</flow>
+</mule>

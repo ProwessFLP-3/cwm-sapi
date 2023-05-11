@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="cwm-sapi-errors.xml" />
+<munit:test name="BAD_REQUEST" doc:id="9816f608-85d7-4964-8b5d-3f525255450a" description="Test" expectedErrorType="APIKIT:BAD_REQUEST">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="APIKIT-main" doc:id="d571ec35-a21f-45fc-916f-a9ef3790bec1" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="cwm-sapi-config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="cwm-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to cwm-sapi-main" doc:id="b03690fa-bc62-42b6-83fd-d61aea0e3c94" name="cwm-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="METHOD_NOT_ALLOWED" doc:id="fd67fb0e-bdd4-49f0-a728-09dfa662d72b" description="Test" expectedErrorType="APIKIT:METHOD_NOT_ALLOWED" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="APIKIT-main" doc:id="e6347512-c987-4382-8800-efc2cf120832" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="cwm-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:METHOD_NOT_ALLOWED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to cwm-sapi-main" doc:id="72e58887-c486-46dc-8061-a880c1fb852e" name="cwm-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="NOT_ACCEPTABLE" doc:id="4b3b181b-1ba6-4a1a-942e-7c1c7e5e69cc" description="Test" expectedErrorType="APIKIT:NOT_ACCEPTABLE" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="APIKIT-main" doc:id="08bad831-55e5-4f62-8703-eec11d4e873f" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="cwm-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_ACCEPTABLE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to cwm-sapi-main" doc:id="329d37b2-7b2c-4fed-bf89-4081b4b2cbb0" name="cwm-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="NOT_FOUND" doc:id="61ec4fb1-626f-4e72-80ad-a0bdc086c756" description="Test" expectedErrorType="APIKIT:NOT_FOUND" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="APIKIT-main" doc:id="6747b390-ad15-4cc3-927f-7efbb5ee6bb8" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="cwm-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to cwm-sapi-main" doc:id="9805ae62-4033-474a-9522-216c1d160034" name="cwm-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="NOT_IMPLEMENTED" doc:id="c4eab1cc-3523-4675-ab1e-c358b3988e9c" description="Test" expectedErrorType="APIKIT:NOT_IMPLEMENTED" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="APIKIT-main" doc:id="df9f2f9f-f4bf-49c3-ac0d-e1b207b2337e" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="cwm-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_IMPLEMENTED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to cwm-sapi-main" doc:id="edf7637f-7cc4-4584-ac66-d3182e02e4a5" name="cwm-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="UNSUPPORTED_MEDIA_TYPE" doc:id="34dd4491-b002-488b-a1c5-d04aea3a1304" description="Test" expectedErrorType="APIKIT:UNSUPPORTED_MEDIA_TYPE" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="APIKIT-main" doc:id="f64d7d5a-14bc-4da2-aec9-819a7cf5b6de" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="cwm-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to cwm-sapi-main" doc:id="9dd857a2-5932-4522-9769-a1bfcac279d6" name="cwm-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="ANY" doc:id="f513994d-f846-4c09-af64-ee3d27699c67" description="Test" expectedErrorType="APIKIT:ANY" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="APIKIT-main" doc:id="71cc33b9-711f-4779-8354-b52c864f9266" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="cwm-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:ANY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to cwm-sapi-main" doc:id="3e90da4a-6617-4572-ae81-1fff2cf89211" name="cwm-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="cwm-CONNECTIVITY" doc:id="ff6a159f-d8b4-4217-b21a-05f10a9e39e8" description="Test" expectedErrorType="HTTP:CONNECTIVITY">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Object Retrieve" doc:id="b07047a6-dac0-46e7-8237-b22fc42f9e5e" processor="os:retrieve" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="f7910d91-35a9-4939-80e2-fe6fffc5ac11" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://dwl-files/retrieve-auth-access-token.dwl')]" mediaType="application/json" />
+					<munit-tools:variables >
+						<munit-tools:variable key="authRequestPayload" value='#[output application/json --- {	"username": "OjEsImVtYWlsIjoidGVzdHVzZXJAdnYuaW8iLCJ1c2VybmFtZSI6InRlc3R1c2VyQHZ2LmlvIiwibGFzdG5hbWUiOiJUZXN0IHVzZXIifQ.0_WwehFXPWkEb8olp_4x-M13cd82E4fWqB9WowTn-qsSz67viVL7yLANRP4U_uVP87jqSGPOhuDyJfAA8ShhaA"}]' mediaType="application/json" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Cwm Response" doc:id="0ae1ec1f-339a-4e63-b048-2e4c447b42da" processor="http:request" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="d957aa36-7a55-4580-8d37-4c114702cb2a" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="aab62f00-c292-48de-a3bc-244660a78a18" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://dwl-files/input-payload.dwl')]" mediaType="application/json" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to post:\orders:application\json:cwm-sapi-config" doc:id="d8d6e59d-3416-40f7-b599-cec16bc51ae6" name="post:\orders:application\json:cwm-sapi-config" />
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="9078a231-dc6f-4cd6-87f7-085c91958eef" expression="#[payload]" is="#[MunitTools::notNullValue()]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="FORBIDDEN" doc:id="851bd770-6132-47ca-a9fd-d5889e89088b" description="Test" expectedErrorType="HTTP:FORBIDDEN" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="APIKIT-main" doc:id="afecc65c-ed31-432e-84db-c8270edc1b01" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="cwm-sapi-config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="cwm-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:FORBIDDEN" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to cwm-sapi-main" doc:id="4f32a651-4560-4695-95b6-ee8ce0892d9d" name="cwm-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="UNAUTHORIZED" doc:id="d0e769b2-9ea0-42f3-8ed1-9166caa98f77" description="Test" expectedErrorType="HTTP:UNAUTHORIZED" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="APIKIT-main" doc:id="e824cca6-8e0a-40fd-8b2a-be4f022d9811" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="cwm-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:UNAUTHORIZED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to cwm-sapi-main" doc:id="9f8d9c2d-0796-47f1-9264-be03e44cef08" name="cwm-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	<munit:test name="INTERNAL_SERVER_ERROR" doc:id="15cf561e-0ac7-4459-8be9-5f3d0324a304" description="Test" expectedErrorType="HTTP:INTERNAL_SERVER_ERROR" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="APIKIT-main" doc:id="67d0e1c7-1073-4626-9b4c-6c2d9c03b7f4" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="cwm-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:INTERNAL_SERVER_ERROR" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to cwm-sapi-main" doc:id="0bef9c8b-ebb5-4b47-86ac-c5d5b8991daf" name="cwm-sapi-main" />
+		</munit:execution>
+	</munit:test>
+	
+</mule>

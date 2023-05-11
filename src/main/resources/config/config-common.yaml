@@ -1,0 +1,11 @@
+# Common File to be use in All env
+application:
+  name: "cwm-sapi"
+milestone:
+  category: "LOG"
+  
+logger: 
+  source: "orders-papi"
+  target: "valor victoria cwm"
+  businessProcessName: "DO order processing"
+  

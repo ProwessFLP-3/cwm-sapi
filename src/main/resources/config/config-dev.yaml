@@ -1,0 +1,28 @@
+api:
+  id: "18670481"  
+
+http:
+  host: "0.0.0.0"
+  port: "8081"
+  
+https:
+  host: "0.0.0.0"
+  port: "8082"
+  
+tls:
+  type: "JKS"
+  path: "cert/vv-mule-cert-dev.jks"
+  alias: "vv-mule-cert"
+
+httpRequest:
+  host: "dev.valorvictoria.com"
+  port: "443"
+  pathDeliveryOrders: "/cwm/delivery-orders"
+  pathAuth: "/auth/token/generate"
+  method: "post"
+  responseTimeout: "30000"
+  frequency: "2000"
+  retryCount: "2"
+
+objectStore:
+  ttl: "82800"

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:cofww-logger="http://www.mulesoft.org/schema/mule/cofww-logger"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/cofww-logger http://www.mulesoft.org/schema/mule/cofww-logger/current/mule-cofww-logger.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+
+	<!-- This configuration uses default algorithm (AES) and mode (CBC) -->
+	<secure-properties:config
+		name="Secure-Properties-Config"
+		doc:name="Environment-specific Secure Properties Config"
+		doc:id="b64daa35-1683-43f6-84c9-21776df3753a"
+		file="config/config-secured-${mule.env}.yaml"
+		key="${mule.key}" />
+
+	<configuration-properties
+		doc:name="Application Configuration properties"
+		doc:id="4e9071c0-5800-46f3-8031-b1ae639c2256"
+		file="config/config-${mule.env}.yaml" />
+
+	<configuration-properties
+		doc:name="Common Configuration properties"
+		doc:id="8f0a30ee-8023-4aa2-91a3-c8ab1f805c27"
+		file="config/config-common.yaml" />
+
+	<api-gateway:autodiscovery apiId="${api.id}"
+		doc:name="API Autodiscovery"
+		doc:id="99fac178-73f2-484b-8821-be13d2c2201a" flowRef="cwm-sapi-main"
+		ignoreBasePath="true" />
+    
+
+	<tls:context name="tls-vv" doc:name="TLS Context" doc:id="5dd20cd8-d02e-4879-af6b-5737ad42b3e6" >
+	
+	<tls:key-store type="jks" path="${tls.path}" alias="${tls.alias}" keyPassword="${secure::tls.keyPassword}" password="${secure::tls.password}" />
+	
+	</tls:context>
+	<os:object-store name="Object-store" doc:name="Object store" doc:id="265d95ae-b949-4eb2-99cd-28256a3b8a85" entryTtl="${objectStore.ttl}"/>
+	<http:request-config name="cwm-http" doc:name="HTTP Request configuration" doc:id="a87dd2fa-0c25-49bf-9618-c1fdc80d081a" >
+		<http:request-connection protocol="HTTPS" host="${httpRequest.host}" port="${httpRequest.port}" />
+	</http:request-config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="f13c7454-b546-43d5-9898-f9556ac6f75b" >
+		<http:listener-connection protocol="HTTPS" host="${https.host}" port="${https.port}" tlsContext="tls-vv" />
+	</http:listener-config>
+	 <apikit:config name="cwm-sapi-config" api="resource::3d244ed7-6ddf-49a9-be6d-96e22048cbc0:cwm-sapi:1.0.1:raml:zip:cwm-sapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+   	<import doc:name="Import" doc:id="e999d414-ed2c-4743-928b-01b7a3be24a1" doc:description="common-global" file="common-global.xml" />
+	<import doc:name="Import" doc:id="a74c722f-0b56-4d35-9e5b-48287e27445f" doc:description="error-handler" file="error-handler.xml" />
+	<import doc:name="Import" doc:id="2b0218e8-0506-445d-bab8-3596b7f36828" doc:description="mule-common-logging" file="mule-common-logging.xml" />
+	<configuration doc:name="Configuration" doc:id="c6b3b4b8-410d-414b-a649-3e2821189415" defaultErrorHandler-ref="error-handler" />
+
+
+</mule>

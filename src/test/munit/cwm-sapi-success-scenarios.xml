@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="cwm-sapi-test-suite.xml" />
+	<munit:test name="cwm-sapi-test-suite-post:cwm-sapi-configTest" doc:id="ad418efb-9cda-4b82-a5f9-21f4b40010ac" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Auth Response" doc:id="dd6b2028-b9e6-46bb-bc73-c4cab5563236" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0ccfed74-4b1c-445c-ade7-5deef210f4c0" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://dwl-files/cwm-auth-Response.dwl')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Cwm Response" doc:id="8ce86596-7cf8-4a2a-a16a-1c092874838c" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="d957aa36-7a55-4580-8d37-4c114702cb2a" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://dwl-files/cwm-output-payload.dwl')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="5beeff74-bb57-457b-9473-b8f39d0500f2" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://dwl-files/input-payload.dwl')]" mediaType="application/json" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to post:\orders:application\json:cwm-sapi-config" doc:id="6f48e119-bed7-41e2-a008-d6feac59a0d7" name="post:\orders:application\json:cwm-sapi-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="d8d458e8-aeac-4c40-9af8-050362f6efee" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="cwm-sapi-test-suite-cwm-sapi-console" doc:id="213d92c8-9cf8-4d74-a27f-239e085ede20" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Console" doc:id="46f498e7-7cbb-4dde-b7e5-ccefa5a95912" processor="apikit:console">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="cwm-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to cwm-sapi-console" doc:id="0bd39331-5aec-49d0-b89c-adb3d08484e9" name="cwm-sapi-console"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="379290cf-f458-4c36-b7c1-63175ffe626e" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="cwm-sapi-log-failure-response-sent" doc:id="bfe484b6-84af-460b-8a7a-92b8ab3ad0cf" >
+		<munit:execution >
+			<flow-ref doc:name="mile-log:data-enrinchment-failure" doc:id="518a3d50-91a5-4ab9-b589-cb335650a5b1" name="mile-log:data-enrinchment-failure" />
+			<flow-ref doc:name="mile-log:filter-criteria-failed" doc:id="fd997a09-f42d-4940-af0c-9e2f31a8ff17" name="mile-log:filter-criteria-failed" />
+			<flow-ref doc:name="mile-log:failure-response-sent" doc:id="8d7870ed-790d-47e9-a760-f37ce99c3a15" name="mile-log:failure-response-sent" />
+			<flow-ref doc:name="mile-log:failure-response-received" doc:id="01643e44-855c-4004-9d4d-bf8afa6b07b2" name="mile-log:failure-response-received" />
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="83eb3da5-a56a-4547-82af-fa3f61482711" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+</mule>

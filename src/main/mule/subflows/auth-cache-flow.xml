@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="auth-cache-flow" doc:id="c2b0c85d-9a3f-4004-a4cf-aeced331528e" >
+		<os:retrieve doc:name="Retrieve auth Access Token" doc:id="f7910d91-35a9-4939-80e2-fe6fffc5ac11" key="#[vars.authRequestPayload.username]" objectStore="Object-store" >
+			<os:default-value ><![CDATA[#[""]]]></os:default-value>
+		</os:retrieve>
+		<choice doc:name="Choice" doc:id="f6194e7e-0b00-4959-aeb1-231889c3df13" >
+			<when expression="#[isEmpty(payload)]" >
+				<http:request method="POST" doc:name="Create Token Request" doc:id="0ccfed74-4b1c-445c-ade7-5deef210f4c0" config-ref="cwm-http" path="${httpRequest.pathAuth}" responseTimeout="${httpRequest.responseTimeout}">
+					<http:body ><![CDATA[#[vars.authRequestPayload]]]></http:body>
+					<http:headers ><![CDATA[#[output application/json
+---
+{
+	"Content-Type" : "application/json"
+}]]]></http:headers>
+				</http:request>
+				<os:store doc:name="Store Oauth Access Token" doc:id="4121c3ae-4b08-4f12-b1d7-0ed261885ee2" key="#[vars.authRequestPayload.username]" objectStore="Object-store" />
+				<set-variable value='#[payload.token as String]' doc:name="Set Access Token" doc:id="03c724e7-6c7a-47fd-9caa-3f35141a3120" variableName="token" />
+			</when>
+			<otherwise >
+				<set-variable value='#[payload.token as String]' doc:name="Set Access Token" doc:id="babd16ee-0bfa-4ef9-9e74-f9959b74f585" variableName="token" />
+			</otherwise>
+		</choice>
+	</sub-flow>
+</mule>
